@@ -23,6 +23,8 @@ export class Projects implements OnInit {
 
   private proyectoEditId: number | null = null;
 
+  protected readonly today = new Date().toISOString().slice(0, 10);
+
   protected nuevoProyecto = {
     proyecto: '',
     fechaInicio: '',
@@ -41,6 +43,16 @@ export class Projects implements OnInit {
     });
   }
 
+  protected fechaInicioInvalida(): boolean {
+    if (this.modoEdicion()) return false;
+    return !!this.nuevoProyecto.fechaInicio && this.nuevoProyecto.fechaInicio < this.today;
+  }
+
+  protected fechaFinInvalida(): boolean {
+    const { fechaInicio, fechaFin } = this.nuevoProyecto;
+    return !!fechaInicio && !!fechaFin && fechaFin < fechaInicio;
+  }
+
   showCreatePr(){
     if (this.activateForm()) {
       this.cancelarFormulario();
@@ -57,7 +69,7 @@ export class Projects implements OnInit {
   }
 
   crearProyecto(form: NgForm): void {
-    if (form.invalid || this.nuevoProyecto.fechaFin < this.nuevoProyecto.fechaInicio) {
+    if (form.invalid || this.fechaFinInvalida() || this.fechaInicioInvalida()) {
       form.control.markAllAsTouched();
       return;
     }

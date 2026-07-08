@@ -27,6 +27,8 @@ export class Employees implements OnInit {
 
   private empleadoEditId: number | null = null;
 
+  protected readonly today = new Date().toISOString().slice(0, 10);
+
   protected nuevoEmpleado = {
     nombres: '',
     apellidos: '',
@@ -56,6 +58,30 @@ export class Employees implements OnInit {
     return this.departamentos().find(d => d.idDepartamento === idDepartamento)?.departamento ?? '—';
   }
 
+  protected calcularEdad(fecha: string): number {
+    const nacimiento = new Date(fecha);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
+    }
+    return edad;
+  }
+
+  protected fechaNacimientoInvalida(): boolean {
+    const fecha = this.nuevoEmpleado.fechaNacimiento;
+    if (!fecha) return false;
+    return fecha > this.today || this.calcularEdad(fecha) < 18;
+  }
+
+  protected fechaNacimientoMensaje(): string {
+    if (this.nuevoEmpleado.fechaNacimiento > this.today) {
+      return 'La fecha de nacimiento no puede ser futura.';
+    }
+    return 'El empleado debe ser mayor de edad (18 años).';
+  }
+
   showCreatePr(){
     if (this.activateForm()) {
       this.cancelarFormulario();
@@ -72,7 +98,7 @@ export class Employees implements OnInit {
   }
 
   crearEmpleado(form: NgForm): void {
-    if (form.invalid || this.nuevoEmpleado.idDepartamento === 0) {
+    if (form.invalid || this.nuevoEmpleado.idDepartamento === 0 || this.fechaNacimientoInvalida()) {
       form.control.markAllAsTouched();
       return;
     }

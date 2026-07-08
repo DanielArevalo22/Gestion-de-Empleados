@@ -15,26 +15,32 @@
             <div class="form-grid">
                 <div class="form-field">
                     <label for="title" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="title" name="nombres" [(ngModel)]="nuevoEmpleado.nombres" #nombres="ngModel" required
+                    <input type="text" class="form-control" id="title" name="nombres" [(ngModel)]="nuevoEmpleado.nombres" #nombres="ngModel" required minlength="2" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$"
                         [class.is-invalid]="nombres.invalid && (nombres.touched || form.submitted)">
                     <div class="invalid-feedback" *ngIf="nombres.invalid && (nombres.touched || form.submitted)">
-                        Los nombres son obligatorios.
+                        <span *ngIf="nombres.errors?.['required']">Los nombres son obligatorios.</span>
+                        <span *ngIf="nombres.errors?.['minlength']">Debe tener al menos 2 caracteres.</span>
+                        <span *ngIf="nombres.errors?.['pattern']">Solo se permiten letras.</span>
                     </div>
                 </div>
                 <div class="form-field">
                     <label for="apellidos" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="nuevoEmpleado.apellidos" #apellidos="ngModel" required
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="nuevoEmpleado.apellidos" #apellidos="ngModel" required minlength="2" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$"
                         [class.is-invalid]="apellidos.invalid && (apellidos.touched || form.submitted)">
                     <div class="invalid-feedback" *ngIf="apellidos.invalid && (apellidos.touched || form.submitted)">
-                        Los apellidos son obligatorios.
+                        <span *ngIf="apellidos.errors?.['required']">Los apellidos son obligatorios.</span>
+                        <span *ngIf="apellidos.errors?.['minlength']">Debe tener al menos 2 caracteres.</span>
+                        <span *ngIf="apellidos.errors?.['pattern']">Solo se permiten letras.</span>
                     </div>
                 </div>
                 <div class="form-field">
                     <label for="cargo" class="form-label">Cargo</label>
-                    <input type="text" class="form-control" id="cargo" name="cargo" [(ngModel)]="nuevoEmpleado.cargo" #cargo="ngModel" required
+                    <input type="text" class="form-control" id="cargo" name="cargo" [(ngModel)]="nuevoEmpleado.cargo" #cargo="ngModel" required minlength="2" pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$"
                         [class.is-invalid]="cargo.invalid && (cargo.touched || form.submitted)">
                     <div class="invalid-feedback" *ngIf="cargo.invalid && (cargo.touched || form.submitted)">
-                        El cargo es obligatorio.
+                        <span *ngIf="cargo.errors?.['required']">El cargo es obligatorio.</span>
+                        <span *ngIf="cargo.errors?.['minlength']">Debe tener al menos 2 caracteres.</span>
+                        <span *ngIf="cargo.errors?.['pattern']">Solo se permiten letras.</span>
                     </div>
                 </div>
                 <div class="form-field">
@@ -49,10 +55,11 @@
 
                 <div class="form-field">
                     <label for="startDate" class="form-label">Fecha Nacimiento</label>
-                    <input type="date" class="form-control" id="startDate" name="fechaNacimiento" [(ngModel)]="nuevoEmpleado.fechaNacimiento" #fechaNacimiento="ngModel" required
-                        [class.is-invalid]="fechaNacimiento.invalid && (fechaNacimiento.touched || form.submitted)">
-                    <div class="invalid-feedback" *ngIf="fechaNacimiento.invalid && (fechaNacimiento.touched || form.submitted)">
-                        La fecha de nacimiento es obligatoria.
+                    <input type="date" class="form-control" id="startDate" name="fechaNacimiento" [(ngModel)]="nuevoEmpleado.fechaNacimiento" #fechaNacimiento="ngModel" required [max]="today"
+                        [class.is-invalid]="(fechaNacimiento.invalid || fechaNacimientoInvalida()) && (fechaNacimiento.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="(fechaNacimiento.invalid || fechaNacimientoInvalida()) && (fechaNacimiento.touched || form.submitted)">
+                        <span *ngIf="fechaNacimiento.errors?.['required']">La fecha de nacimiento es obligatoria.</span>
+                        <span *ngIf="!fechaNacimiento.errors?.['required'] && fechaNacimientoInvalida()">{{ fechaNacimientoMensaje() }}</span>
                     </div>
                 </div>
                 <div class="form-field">
@@ -70,7 +77,7 @@
 
             <div class="form-actions">
                 <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="form.invalid || nuevoEmpleado.idDepartamento === 0">{{ modoEdicion() ? 'Actualizar Empleado' : 'Registrar Empleado' }}</button>
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid || nuevoEmpleado.idDepartamento === 0 || fechaNacimientoInvalida()">{{ modoEdicion() ? 'Actualizar Empleado' : 'Registrar Empleado' }}</button>
             </div>
         </form>
 
