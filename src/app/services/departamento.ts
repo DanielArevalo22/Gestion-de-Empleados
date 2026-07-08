@@ -4,8 +4,7 @@ import { Observable } from 'rxjs';
 import { Departamento } from '../models/departamento.model';
 import { Employee } from '../models/Employee.model';
 
-const API_URL = 'http://localhost:5134/api/departamento';
-
+const API_URL = 'https://gestion-empleados-back-final.onrender.com/api/departamento';
 @Injectable({
   providedIn: 'root',
 })

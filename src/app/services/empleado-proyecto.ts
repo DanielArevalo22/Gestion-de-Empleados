@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EmpleadoProyecto } from '../models/empleado-proyecto.model';
 
-const API_URL = 'http://localhost:5134/api/empleadoproyecto';
+const API_URL = 'https://gestion-empleados-back-final.onrender.com/api/empleadoproyecto';
 
 @Injectable({
   providedIn: 'root',
