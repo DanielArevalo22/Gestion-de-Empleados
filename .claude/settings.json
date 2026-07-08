@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find src/app/services -type f)",
-      "Bash(grep -r \"provideHttpClient\\\\|HttpClientModule\" src/app)",
-      "Bash(npx ng *)"
-    ]
-  }
-}
