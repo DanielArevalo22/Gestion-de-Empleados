@@ -1,0 +1,21 @@
+<div class="table-card">
+    <p class="table-title">Asignaciones de empleados</p>
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Proyecto</th>
+                <th>Rol</th>
+                <th>Fecha asignación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let a of asignaciones()">
+                <td>{{ a.empleado ? (a.empleado.nombres + ' ' + a.empleado.apellidos) : ('Empleado #' + a.idEmpleado) }}</td>
+                <td>{{ a.proyecto ? a.proyecto.proyecto : ('Proyecto #' + a.idProyecto) }}</td>
+                <td>{{ a.rol }}</td>
+                <td>{{ a.fechaAsignacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

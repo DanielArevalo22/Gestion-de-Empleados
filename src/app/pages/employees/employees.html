@@ -1,0 +1,120 @@
+<div class="page-wrapper">
+<app-header></app-header>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1> Empleados</h1>
+        <button class="btn" [class]="activateForm() ? 'btn-outline-secondary' : 'btn-primary'" (click)="showCreatePr()">
+            <i class="bi" [class.bi-plus-circle]="!activateForm()" [class.bi-x-circle]="activateForm()"></i>
+            {{ activateForm() ? 'Cancelar' : 'Ingresar Empleado' }}
+        </button>
+    </div>
+
+
+        <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearEmpleado()" #form="ngForm">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="title" class="form-label">Nombres</label>
+                    <input type="text" class="form-control" id="title" name="nombres" [(ngModel)]="nuevoEmpleado.nombres" required>
+                </div>
+                <div class="form-field">
+                    <label for="apellidos" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="nuevoEmpleado.apellidos" required>
+                </div>
+                <div class="form-field">
+                    <label for="cargo" class="form-label">Cargo</label>
+                    <input type="text" class="form-control" id="cargo" name="cargo" [(ngModel)]="nuevoEmpleado.cargo" required>
+                </div>
+                <div class="form-field">
+                    <label for="founds" class="form-label">Sueldo</label>
+                    <input type="number" class="form-control" id="founds" name="sueldo" [(ngModel)]="nuevoEmpleado.sueldo" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="startDate" class="form-label">Fecha Nacimiento</label>
+                    <input type="date" class="form-control" id="startDate" name="fechaNacimiento" [(ngModel)]="nuevoEmpleado.fechaNacimiento" required>
+                </div>
+                <div class="form-field">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <select id="departamento" name="idDepartamento" class="form-select" [(ngModel)]="nuevoEmpleado.idDepartamento" required>
+                        <option [ngValue]="0" selected disabled>Selecciona un departamento</option>
+                        <option *ngFor="let d of departamentos()" [ngValue]="d.idDepartamento">{{ d.departamento }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ modoEdicion() ? 'Actualizar Empleado' : 'Registrar Empleado' }}</button>
+            </div>
+        </form>
+
+    <div class="table-card">
+        <p class="table-title">Empleados</p>
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombres</th>
+                    <th>Cargo</th>
+                    <th>Departamento</th>
+                    <th>Salario</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of employees()">
+                    <td>{{ e.idEmpleado }}</td>
+                    <td>{{ e.nombres }} {{ e.apellidos }}</td>
+                    <td>{{ e.cargo }}</td>
+                    <td>{{ nombreDepartamento(e.idDepartamento) }}</td>
+                    <td>{{ e.sueldo | number:'1.0-0' }}</td>
+                    <td>{{ e.fechaNacimiento }}</td>
+                    <td>
+                        <span class="badge rounded-pill" [class]="e.activo ? 'bg-primary' : 'bg-secondary'">
+                            {{ e.activo ? 'Activo' : 'Inactivo' }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="row-actions">
+                            <button type="button" class="icon-btn icon-btn-view" title="Ver" (click)="verEmpleado(e)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button type="button" class="icon-btn icon-btn-edit" title="Editar" (click)="editarEmpleado(e)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="icon-btn icon-btn-delete" title="Eliminar" (click)="eliminarEmpleado(e)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal-backdrop-custom" *ngIf="empleadoDetalle()" (click)="cerrarDetalle()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <div class="modal-header-custom">
+            <h2>Detalle del empleado</h2>
+            <button type="button" class="icon-btn" (click)="cerrarDetalle()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="modal-body-custom" *ngIf="empleadoDetalle() as e">
+            <div class="detail-row"><span>Id</span><strong>{{ e.idEmpleado }}</strong></div>
+            <div class="detail-row"><span>Nombres</span><strong>{{ e.nombres }} {{ e.apellidos }}</strong></div>
+            <div class="detail-row"><span>Cargo</span><strong>{{ e.cargo }}</strong></div>
+            <div class="detail-row"><span>Departamento</span><strong>{{ nombreDepartamento(e.idDepartamento) }}</strong></div>
+            <div class="detail-row"><span>Salario</span><strong>{{ e.sueldo | number:'1.0-0' }}</strong></div>
+            <div class="detail-row"><span>Fecha nacimiento</span><strong>{{ e.fechaNacimiento }}</strong></div>
+            <div class="detail-row"><span>Estado</span><strong>{{ e.activo ? 'Activo' : 'Inactivo' }}</strong></div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
+</div>

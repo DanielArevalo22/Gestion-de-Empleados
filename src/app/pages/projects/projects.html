@@ -1,0 +1,101 @@
+<div class="page-wrapper">
+<app-header></app-header>
+
+<div class="page-container">
+    <div class="page-header">
+        <h1> Proyectos</h1>
+        <button class="btn" [class]="activateForm() ? 'btn-outline-secondary' : 'btn-primary'" (click)="showCreatePr()">
+            <i class="bi" [class.bi-plus-circle]="!activateForm()" [class.bi-x-circle]="activateForm()"></i>
+            {{ activateForm() ? 'Cancelar' : 'Crear Proyecto' }}
+        </button>
+    </div>
+
+    <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearProyecto()" #form="ngForm">
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="title" class="form-label">Proyecto</label>
+                <input type="text" class="form-control" id="title" name="proyecto" [(ngModel)]="nuevoProyecto.proyecto" required>
+            </div>
+
+            <div class="form-field">
+                <label for="founds" class="form-label">Presupuesto</label>
+                <input type="number" class="form-control" id="founds" name="presupuesto" [(ngModel)]="nuevoProyecto.presupuesto" required>
+            </div>
+
+            <div class="form-field">
+                <label for="startDate" class="form-label">Fecha inicio</label>
+                <input type="date" class="form-control" id="startDate" name="fechaInicio" [(ngModel)]="nuevoProyecto.fechaInicio" required>
+            </div>
+
+            <div class="form-field">
+                <label for="endDate" class="form-label">Fecha fin</label>
+                <input type="date" class="form-control" id="endDate" name="fechaFin" [(ngModel)]="nuevoProyecto.fechaFin" required>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ modoEdicion() ? 'Actualizar Proyecto' : 'Crear Proyecto' }}</button>
+        </div>
+    </form>
+
+    <div class="table-card">
+        <p class="table-title">Proyectos activos</p>
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Proyecto</th>
+                    <th>Fecha inicio</th>
+                    <th>Fecha fin</th>
+                    <th>Presupuesto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of proyectosActivos()">
+                    <td>{{ p.proyecto }}</td>
+                    <td>{{ p.fechaInicio }}</td>
+                    <td>{{ p.fechaFin }}</td>
+                    <td>{{ p.presupuesto | number:'1.0-0' }}</td>
+                    <td>
+                        <div class="row-actions">
+                            <button type="button" class="icon-btn icon-btn-view" title="Ver" (click)="verProyecto(p)">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button type="button" class="icon-btn icon-btn-edit" title="Editar" (click)="editarProyecto(p)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button type="button" class="icon-btn icon-btn-delete" title="Eliminar" (click)="eliminarProyecto(p)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-assignments-table></app-assignments-table>
+</div>
+
+<div class="modal-backdrop-custom" *ngIf="proyectoDetalle()" (click)="cerrarDetalle()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <div class="modal-header-custom">
+            <h2>Detalle del proyecto</h2>
+            <button type="button" class="icon-btn" (click)="cerrarDetalle()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        <div class="modal-body-custom" *ngIf="proyectoDetalle() as p">
+            <div class="detail-row"><span>Id</span><strong>{{ p.idProyecto }}</strong></div>
+            <div class="detail-row"><span>Proyecto</span><strong>{{ p.proyecto }}</strong></div>
+            <div class="detail-row"><span>Fecha inicio</span><strong>{{ p.fechaInicio }}</strong></div>
+            <div class="detail-row"><span>Fecha fin</span><strong>{{ p.fechaFin }}</strong></div>
+            <div class="detail-row"><span>Presupuesto</span><strong>{{ p.presupuesto | number:'1.0-0' }}</strong></div>
+            <div class="detail-row"><span>Estado</span><strong>{{ p.activo ? 'Activo' : 'Inactivo' }}</strong></div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
+</div>

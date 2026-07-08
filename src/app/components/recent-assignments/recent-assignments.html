@@ -1,0 +1,12 @@
+<div class="card">
+    <p class="list-title">Últimas asignaciones</p>
+    <ul>
+        <li *ngFor="let a of asignaciones()">
+            <span class="item-text">
+                {{ a.empleado ? (a.empleado.nombres + ' ' + a.empleado.apellidos) : ('Empleado #' + a.idEmpleado) }}
+                → {{ a.proyecto ? a.proyecto.proyecto : ('Proyecto #' + a.idProyecto) }} ({{ a.rol }})
+            </span>
+            <span class="item-date">{{ a.fechaAsignacion }}</span>
+        </li>
+    </ul>
+</div>

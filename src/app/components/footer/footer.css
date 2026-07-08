@@ -1,0 +1,11 @@
+.footer-app{
+    box-shadow : 0 -2px 10px rgba(0, 0, 0, 0.10);
+}
+
+.footer-app h5{
+    letter-spacing : 0.5px;
+}
+
+.footer-app hr{
+    opacity : 0.25;
+}

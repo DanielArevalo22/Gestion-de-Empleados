@@ -1,0 +1,9 @@
+<div class="card">
+    <p class="list-title">Próximos vencimientos</p>
+    <ul>
+        <li *ngFor="let p of proyectos()">
+            <span class="item-text">{{ p.proyecto }}</span>
+            <span class="item-date">{{ p.fechaFin }}</span>
+        </li>
+    </ul>
+</div>

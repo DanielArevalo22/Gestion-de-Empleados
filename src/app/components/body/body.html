@@ -1,0 +1,22 @@
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>Bienvenido, Admin</h1>
+    </div>
+
+    <div class="body-row">
+        <div class="cards-row">
+            <div class="card-block">
+                <app-card [numero]="totalProyectos()" label="Proyectos" icon="bi-kanban-fill"></app-card>
+                <app-card [numero]="totalEmpleados()" label="Empleados" icon="bi-people-fill"></app-card>
+            </div>
+            <app-info-list></app-info-list>
+        </div>
+
+        <div class="widgets-row">
+            <app-projects-table></app-projects-table>
+            <div class="widgets-sidebar">
+                <app-recent-assignments></app-recent-assignments>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+.table-card{
+    background : #ffffff;
+    border-radius : 16px;
+    box-shadow : 0 4px 12px rgba(0, 0, 0, 0.10);
+    padding : 20px 22px;
+    margin-top : 24px;
+    overflow-x : auto;
+}
+
+.table-title{
+    font-size : 13px;
+    font-weight : 700;
+    color : #6c757d;
+    text-transform : uppercase;
+    letter-spacing : 0.6px;
+    margin-bottom : 12px;
+}
+
+th{
+    font-size : 11px;
+    text-transform : uppercase;
+    letter-spacing : 0.4px;
+    color : #6c757d;
+    background-color : #f8f9fb;
+    border-bottom-width : 1px;
+    padding : 10px 8px;
+}
+
+td{
+    font-size : 14px;
+    padding : 10px 8px;
+}

@@ -1,0 +1,9 @@
+<div class="card">
+    <div class="card-body">
+        <i *ngIf="icon" class="card-icon bi" [class]="icon"></i>
+        <div class="pj-number">
+            <p>{{ numero ?? '—' }}</p>
+        </div>
+        <p class="pj-label">{{ label }}</p>
+    </div>
+</div>

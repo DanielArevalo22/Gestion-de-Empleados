@@ -1,0 +1,73 @@
+.dashboard{
+    margin: 0 auto;
+}
+
+.dashboard-header{
+    margin: 28px;
+    padding: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.dashboard-header h1{
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    color: #212529;
+}
+
+.body-row{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Contenedor de las tarjetas e info */
+.cards-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+/* Tarjetas */
+.card-block{
+    display: flex;
+    gap: 18px;
+    flex: 1;
+}
+
+.card-block app-card{
+    flex: 1;
+    min-width: 220px;
+}
+
+/* Tabla + sidebar */
+.widgets-row{
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) 320px;
+    gap: 22px;
+    align-items: start;
+}
+
+.widgets-sidebar{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* Responsive */
+@media (max-width: 900px){
+
+    .cards-row{
+        flex-direction: column;
+    }
+
+    .card-block{
+        flex-direction: column;
+    }
+
+    .widgets-row{
+        grid-template-columns: 1fr;
+    }
+}

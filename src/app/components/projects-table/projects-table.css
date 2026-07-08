@@ -1,0 +1,53 @@
+*{
+    margin : 0px;
+    padding : 0px;
+}
+
+:host{
+    display : block;
+    width : 100%;
+}
+
+.card{
+    width : 100%;
+    overflow-x : auto;
+    padding : 20px 22px;
+    border : none;
+    border-radius : 16px;
+    box-shadow : 0 4px 12px rgba(0, 0, 0, 0.10);
+    background : #ffffff;
+    transition : box-shadow 220ms ease;
+}
+
+.card:hover{
+    box-shadow : 0 8px 20px rgba(0, 0, 0, 0.14);
+}
+
+.list-title{
+    font-size : 13px;
+    font-weight : 700;
+    color : #6c757d;
+    text-transform : uppercase;
+    letter-spacing : 0.6px;
+    margin-bottom : 12px;
+}
+
+th{
+    font-size : 11px;
+    text-transform : uppercase;
+    letter-spacing : 0.4px;
+    color : #6c757d;
+    background-color : #f8f9fb;
+    border-bottom-width : 1px;
+    padding : 10px 8px;
+}
+
+td{
+    font-size : 14px;
+    padding : 10px 8px;
+}
+
+.badge{
+    font-weight : 600;
+    padding : 6px 12px;
+}
