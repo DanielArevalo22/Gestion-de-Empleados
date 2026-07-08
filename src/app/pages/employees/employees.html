@@ -11,41 +11,66 @@
     </div>
 
 
-        <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearEmpleado()" #form="ngForm">
+        <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearEmpleado(form)" #form="ngForm" novalidate>
             <div class="form-grid">
                 <div class="form-field">
                     <label for="title" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="title" name="nombres" [(ngModel)]="nuevoEmpleado.nombres" required>
+                    <input type="text" class="form-control" id="title" name="nombres" [(ngModel)]="nuevoEmpleado.nombres" #nombres="ngModel" required
+                        [class.is-invalid]="nombres.invalid && (nombres.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="nombres.invalid && (nombres.touched || form.submitted)">
+                        Los nombres son obligatorios.
+                    </div>
                 </div>
                 <div class="form-field">
                     <label for="apellidos" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="nuevoEmpleado.apellidos" required>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" [(ngModel)]="nuevoEmpleado.apellidos" #apellidos="ngModel" required
+                        [class.is-invalid]="apellidos.invalid && (apellidos.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="apellidos.invalid && (apellidos.touched || form.submitted)">
+                        Los apellidos son obligatorios.
+                    </div>
                 </div>
                 <div class="form-field">
                     <label for="cargo" class="form-label">Cargo</label>
-                    <input type="text" class="form-control" id="cargo" name="cargo" [(ngModel)]="nuevoEmpleado.cargo" required>
+                    <input type="text" class="form-control" id="cargo" name="cargo" [(ngModel)]="nuevoEmpleado.cargo" #cargo="ngModel" required
+                        [class.is-invalid]="cargo.invalid && (cargo.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="cargo.invalid && (cargo.touched || form.submitted)">
+                        El cargo es obligatorio.
+                    </div>
                 </div>
                 <div class="form-field">
                     <label for="founds" class="form-label">Sueldo</label>
-                    <input type="number" class="form-control" id="founds" name="sueldo" [(ngModel)]="nuevoEmpleado.sueldo" required>
+                    <input type="number" class="form-control" id="founds" name="sueldo" [(ngModel)]="nuevoEmpleado.sueldo" #sueldo="ngModel" required min="1"
+                        [class.is-invalid]="sueldo.invalid && (sueldo.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="sueldo.invalid && (sueldo.touched || form.submitted)">
+                        <span *ngIf="sueldo.errors?.['required']">El sueldo es obligatorio.</span>
+                        <span *ngIf="sueldo.errors?.['min']">El sueldo debe ser mayor a 0.</span>
+                    </div>
                 </div>
 
                 <div class="form-field">
                     <label for="startDate" class="form-label">Fecha Nacimiento</label>
-                    <input type="date" class="form-control" id="startDate" name="fechaNacimiento" [(ngModel)]="nuevoEmpleado.fechaNacimiento" required>
+                    <input type="date" class="form-control" id="startDate" name="fechaNacimiento" [(ngModel)]="nuevoEmpleado.fechaNacimiento" #fechaNacimiento="ngModel" required
+                        [class.is-invalid]="fechaNacimiento.invalid && (fechaNacimiento.touched || form.submitted)">
+                    <div class="invalid-feedback" *ngIf="fechaNacimiento.invalid && (fechaNacimiento.touched || form.submitted)">
+                        La fecha de nacimiento es obligatoria.
+                    </div>
                 </div>
                 <div class="form-field">
                     <label for="departamento" class="form-label">Departamento</label>
-                    <select id="departamento" name="idDepartamento" class="form-select" [(ngModel)]="nuevoEmpleado.idDepartamento" required>
+                    <select id="departamento" name="idDepartamento" class="form-select" [(ngModel)]="nuevoEmpleado.idDepartamento" #idDepartamento="ngModel" required
+                        [class.is-invalid]="(idDepartamento.invalid || nuevoEmpleado.idDepartamento === 0) && (idDepartamento.touched || form.submitted)">
                         <option [ngValue]="0" selected disabled>Selecciona un departamento</option>
                         <option *ngFor="let d of departamentos()" [ngValue]="d.idDepartamento">{{ d.departamento }}</option>
                     </select>
+                    <div class="invalid-feedback" *ngIf="(idDepartamento.invalid || nuevoEmpleado.idDepartamento === 0) && (idDepartamento.touched || form.submitted)">
+                        Selecciona un departamento.
+                    </div>
                 </div>
             </div>
 
             <div class="form-actions">
                 <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ modoEdicion() ? 'Actualizar Empleado' : 'Registrar Empleado' }}</button>
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid || nuevoEmpleado.idDepartamento === 0">{{ modoEdicion() ? 'Actualizar Empleado' : 'Registrar Empleado' }}</button>
             </div>
         </form>
 

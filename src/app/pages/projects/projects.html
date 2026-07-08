@@ -10,32 +10,50 @@
         </button>
     </div>
 
-    <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearProyecto()" #form="ngForm">
+    <form class="project-form" *ngIf="activateForm()" (ngSubmit)="crearProyecto(form)" #form="ngForm" novalidate>
         <div class="form-grid">
             <div class="form-field">
                 <label for="title" class="form-label">Proyecto</label>
-                <input type="text" class="form-control" id="title" name="proyecto" [(ngModel)]="nuevoProyecto.proyecto" required>
+                <input type="text" class="form-control" id="title" name="proyecto" [(ngModel)]="nuevoProyecto.proyecto" #proyecto="ngModel" required
+                    [class.is-invalid]="proyecto.invalid && (proyecto.touched || form.submitted)">
+                <div class="invalid-feedback" *ngIf="proyecto.invalid && (proyecto.touched || form.submitted)">
+                    El nombre del proyecto es obligatorio.
+                </div>
             </div>
 
             <div class="form-field">
                 <label for="founds" class="form-label">Presupuesto</label>
-                <input type="number" class="form-control" id="founds" name="presupuesto" [(ngModel)]="nuevoProyecto.presupuesto" required>
+                <input type="number" class="form-control" id="founds" name="presupuesto" [(ngModel)]="nuevoProyecto.presupuesto" #presupuesto="ngModel" required min="1"
+                    [class.is-invalid]="presupuesto.invalid && (presupuesto.touched || form.submitted)">
+                <div class="invalid-feedback" *ngIf="presupuesto.invalid && (presupuesto.touched || form.submitted)">
+                    <span *ngIf="presupuesto.errors?.['required']">El presupuesto es obligatorio.</span>
+                    <span *ngIf="presupuesto.errors?.['min']">El presupuesto debe ser mayor a 0.</span>
+                </div>
             </div>
 
             <div class="form-field">
                 <label for="startDate" class="form-label">Fecha inicio</label>
-                <input type="date" class="form-control" id="startDate" name="fechaInicio" [(ngModel)]="nuevoProyecto.fechaInicio" required>
+                <input type="date" class="form-control" id="startDate" name="fechaInicio" [(ngModel)]="nuevoProyecto.fechaInicio" #fechaInicio="ngModel" required
+                    [class.is-invalid]="fechaInicio.invalid && (fechaInicio.touched || form.submitted)">
+                <div class="invalid-feedback" *ngIf="fechaInicio.invalid && (fechaInicio.touched || form.submitted)">
+                    La fecha de inicio es obligatoria.
+                </div>
             </div>
 
             <div class="form-field">
                 <label for="endDate" class="form-label">Fecha fin</label>
-                <input type="date" class="form-control" id="endDate" name="fechaFin" [(ngModel)]="nuevoProyecto.fechaFin" required>
+                <input type="date" class="form-control" id="endDate" name="fechaFin" [(ngModel)]="nuevoProyecto.fechaFin" #fechaFin="ngModel" required
+                    [class.is-invalid]="(fechaFin.invalid || (fechaInicio.value && fechaFin.value && fechaFin.value < fechaInicio.value)) && (fechaFin.touched || form.submitted)">
+                <div class="invalid-feedback" *ngIf="(fechaFin.invalid || (fechaInicio.value && fechaFin.value && fechaFin.value < fechaInicio.value)) && (fechaFin.touched || form.submitted)">
+                    <span *ngIf="fechaFin.errors?.['required']">La fecha de fin es obligatoria.</span>
+                    <span *ngIf="!fechaFin.errors?.['required'] && fechaInicio.value && fechaFin.value && fechaFin.value < fechaInicio.value">La fecha de fin no puede ser anterior a la fecha de inicio.</span>
+                </div>
             </div>
         </div>
 
         <div class="form-actions">
             <button type="reset" class="btn btn-outline-secondary">Limpiar</button>
-            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ modoEdicion() ? 'Actualizar Proyecto' : 'Crear Proyecto' }}</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid || (fechaInicio.value && fechaFin.value && fechaFin.value < fechaInicio.value)">{{ modoEdicion() ? 'Actualizar Proyecto' : 'Crear Proyecto' }}</button>
         </div>
     </form>
 

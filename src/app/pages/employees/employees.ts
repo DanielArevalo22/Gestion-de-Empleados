@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { NgIf, NgFor, DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Employee } from '../../models/Employee.model';
 import { Departamento } from '../../models/departamento.model';
 import { DepartamentoService } from '../../services/departamento';
@@ -71,7 +71,12 @@ export class Employees implements OnInit {
     this.nuevoEmpleado = { nombres: '', apellidos: '', cargo: '', sueldo: 0, fechaNacimiento: '', idDepartamento: 0 };
   }
 
-  crearEmpleado(): void {
+  crearEmpleado(form: NgForm): void {
+    if (form.invalid || this.nuevoEmpleado.idDepartamento === 0) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
     if (this.modoEdicion() && this.empleadoEditId !== null) {
       this.empleadoService.update(this.empleadoEditId, this.nuevoEmpleado).subscribe({
         next: () => {

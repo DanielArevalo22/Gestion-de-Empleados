@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { NgIf, NgFor, DecimalPipe } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Footer } from "../../components/footer/footer";
 import { Header } from "../../components/header/header";
 import { AssignmentsTable } from '../../components/assignments-table/assignments-table';
@@ -56,7 +56,12 @@ export class Projects implements OnInit {
     this.nuevoProyecto = { proyecto: '', fechaInicio: '', fechaFin: '', presupuesto: 0 };
   }
 
-  crearProyecto(): void {
+  crearProyecto(form: NgForm): void {
+    if (form.invalid || this.nuevoProyecto.fechaFin < this.nuevoProyecto.fechaInicio) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
     if (this.modoEdicion() && this.proyectoEditId !== null) {
       this.proyectoService.update(this.proyectoEditId, this.nuevoProyecto).subscribe({
         next: () => {
